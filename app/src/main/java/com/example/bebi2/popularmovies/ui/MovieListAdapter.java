@@ -42,14 +42,15 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
         Glide.with(mContext)
                 .load(currentMovie.getPosterImage())
-                .placeholder()
-                .error()
+                //TODO: add placeholder and error image
+                //.placeholder()
+                //.error()
                 .into(holder.imageView);
     }
 
     @Override
     public int getItemCount() {
-        return 0;
+        return mDataset.size();
     }
 
     public class ViewHolder extends RecyclerView.ViewHolder{

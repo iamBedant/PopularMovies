@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.example.bebi2.popularmovies">
 
+    <uses-permission android:name="android.permission.INTERNET" />
+
     <application
         android:name=".Application.AppController"
         android:allowBackup="true"
@@ -19,6 +21,14 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
+        <activity
+            android:name=".ui.Activity.MovieDetail"
+            android:label="@string/title_activity_movie_detail"
+            android:theme="@style/AppTheme.NoActionBar" />
+        <activity
+            android:name=".ui.Activity.About"
+            android:label="@string/title_activity_about"
+            android:theme="@style/About"></activity>
     </application>
 
 </manifest>

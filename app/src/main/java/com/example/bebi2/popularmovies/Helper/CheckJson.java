@@ -1,4 +1,4 @@
-package com.example.bebi2.popularmovies.Network;
+package com.example.bebi2.popularmovies.Helper;
 
 import org.json.JSONObject;
 
