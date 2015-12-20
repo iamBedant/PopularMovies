@@ -4,4 +4,6 @@
     <string name="movie_poster">Movie Poster</string>
     <string name="title_activity_movie_detail">MovieDetail</string>
     <string name="title_activity_about">About</string>
+    <string name="title_activity_movie_details">MovieDetails</string>
+    <string name="rating_denominator">10</string>
 </resources>

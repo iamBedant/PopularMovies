@@ -1,6 +1,11 @@
 package com.example.bebi2.popularmovies.ui;
 
+import android.app.Activity;
 import android.content.Context;
+import android.content.Intent;
+import android.os.Build;
+import android.support.v4.app.ActivityOptionsCompat;
+import android.support.v4.util.Pair;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -8,8 +13,10 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 
 import com.bumptech.glide.Glide;
+import com.example.bebi2.popularmovies.Config.Config;
 import com.example.bebi2.popularmovies.Pojo.Movie;
 import com.example.bebi2.popularmovies.R;
+import com.example.bebi2.popularmovies.ui.Activity.MovieDetails;
 
 import java.util.ArrayList;
 
@@ -36,9 +43,9 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     }
 
     @Override
-    public void onBindViewHolder(ViewHolder holder, int position) {
+    public void onBindViewHolder(final ViewHolder holder, int position) {
 
-        Movie currentMovie = mDataset.get(position);
+        final Movie currentMovie = mDataset.get(position);
 
         Glide.with(mContext)
                 .load(currentMovie.getPosterImage())
@@ -46,6 +53,24 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
                 //.placeholder()
                 //.error()
                 .into(holder.imageView);
+
+
+        holder.imageView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(mContext, MovieDetails.class);
+                intent.putExtra(Config.BUNDLE_SINGLE_MOVIES,currentMovie);
+                int currentapiVersion = android.os.Build.VERSION.SDK_INT;
+                if (currentapiVersion >= Build.VERSION_CODES.JELLY_BEAN) {
+                    Pair<View, String> p1 = Pair.create((View) holder.imageView, "poster");
+                    ActivityOptionsCompat options = ActivityOptionsCompat.
+                            makeSceneTransitionAnimation((Activity) mContext, p1);
+                    mContext.startActivity(intent, options.toBundle());
+                } else {
+                    mContext.startActivity(intent);
+                }
+            }
+        });
     }
 
     @Override

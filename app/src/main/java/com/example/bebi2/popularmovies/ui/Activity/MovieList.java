@@ -10,6 +10,7 @@ import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
+import android.support.v7.widget.StaggeredGridLayoutManager;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.View;
@@ -58,7 +59,7 @@ public class MovieList extends AppCompatActivity {
         super.onCreate(savedInstanceState);
 
         if (savedInstanceState == null || !savedInstanceState.containsKey(Config.BUNDLE_MOVIES) || !savedInstanceState.containsKey(Config.BUNDLE_SORT_ORDER)) {
-            getMovieList();
+
         } else {
             SORT_ORDER = savedInstanceState.getString(Config.BUNDLE_SORT_ORDER);
             mMovieList = savedInstanceState.getParcelableArrayList(Config.BUNDLE_MOVIES);
@@ -81,7 +82,6 @@ public class MovieList extends AppCompatActivity {
     }
 
 
-
     private void showMovies(@NonNull List<Movie> movies) {
         mMovieList.clear();
         mMovieList.addAll(movies);
@@ -96,7 +96,7 @@ public class MovieList extends AppCompatActivity {
 
 
         int screenWidth = Utils.getScreenWidth(mContext);
-        int optimalColumnCount = Math.round(screenWidth / DESIRED_GRID_COLUMN_WIDTH_DP);
+        final int optimalColumnCount = Math.round(screenWidth / DESIRED_GRID_COLUMN_WIDTH_DP);
 
 
         mSwipeContainer.setOnRefreshListener(new SwipeRefreshLayout.OnRefreshListener() {
@@ -111,7 +111,20 @@ public class MovieList extends AppCompatActivity {
                 android.R.color.holo_red_light);
 
         mAdapter = new MovieListAdapter(mContext, mMovieList);
-        mRecyclerView.setLayoutManager(new GridLayoutManager(mContext, optimalColumnCount));
+
+
+//        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
+//        manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
+
+        GridLayoutManager manager = new GridLayoutManager(mContext,optimalColumnCount,GridLayoutManager.VERTICAL,false);
+//        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup(){
+//            @Override
+//            public int getSpanSize(int position) {
+//                return (position%7 ==0 ? optimalColumnCount-1:optimalColumnCount);
+//            }
+//        });
+
+        mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(mAdapter);
 
     }
@@ -119,6 +132,9 @@ public class MovieList extends AppCompatActivity {
     @Override
     public void onStart() {
         super.onStart();
+        if(mMovieList.isEmpty()){
+            getMovieList();
+        }
     }
 
     @Override
@@ -134,7 +150,6 @@ public class MovieList extends AppCompatActivity {
     }
 
     public void stopRefreshing() {
-        // cancel all pending and in-flight requests, if any, to conserve resources
         mSwipeContainer.setRefreshing(false);
     }
 
@@ -183,13 +198,13 @@ public class MovieList extends AppCompatActivity {
                         movie.setTitle(_movie.getString("title"));
                     }
                     if (CheckJson.contains(_movie, "backdrop_path")) {
-                        movie.setBackdrop(Config.API_IMAGE_BASE_URL + _movie.getString("backdrop_path"));
+                        movie.setBackdrop(Config.API_IMAGE_BASE_URL_BACKDROP + _movie.getString("backdrop_path"));
                     }
                     if (CheckJson.contains(_movie, "vote_average")) {
                         movie.setRating((float) _movie.getDouble("vote_average"));
                     }
                     if (CheckJson.contains(_movie, "poster_path")) {
-                        movie.setPosterImage(Config.API_IMAGE_BASE_URL + _movie.getString("poster_path"));
+                        movie.setPosterImage(Config.API_IMAGE_BASE_URL_POSTER + _movie.getString("poster_path"));
                     }
                     if (CheckJson.contains(_movie, "overview")) {
                         movie.setSynopsis(_movie.getString("overview"));

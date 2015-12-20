@@ -11,7 +11,10 @@ public class Config {
     public static final String API_BASE_URL = "http://api.themoviedb.org/3/discover/movie?";
     public static final String API_GET_MOVIE_LIST = "";
     public static final String API_KEY="api_key=466533c74b7492ae259d6e77554bb96a";
-    public static final String API_IMAGE_BASE_URL="http://image.tmdb.org/t/p/w185";
+    public static final String API_IMAGE_BASE_URL_POSTER="http://image.tmdb.org/t/p/w185";
+    public static final String API_IMAGE_BASE_URL_BACKDROP="http://image.tmdb.org/t/p/w342";
+
+
 
 
     /*
