@@ -122,6 +122,11 @@ public class MovieDetails extends AppCompatActivity {
 
 
     @Override
+    protected void onResume() {
+        super.onResume();
+    }
+
+    @Override
     public boolean onCreateOptionsMenu(Menu menu) {
 
         getMenuInflater().inflate(R.menu.menu_movie_details, menu);

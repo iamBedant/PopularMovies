@@ -24,20 +24,19 @@
             app:layout_scrollFlags="scroll|exitUntilCollapsed">
 
 
-                <ImageView
-                    android:id="@+id/backdrop"
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:fitsSystemWindows="true"
-                    android:scaleType="centerCrop"
-                    android:transitionName="cover"
-                    app:layout_collapseMode="parallax" />
-                <View
-                    android:layout_width="match_parent"
-                    android:layout_height="match_parent"
-                    android:background="@drawable/scrim"></View>
+            <ImageView
+                android:id="@+id/backdrop"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:fitsSystemWindows="true"
+                android:scaleType="centerCrop"
+                android:transitionName="cover"
+                app:layout_collapseMode="parallax" />
 
-
+            <View
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="@drawable/scrim"></View>
 
 
             <android.support.v7.widget.Toolbar
@@ -51,19 +50,19 @@
     </android.support.design.widget.AppBarLayout>
 
     <FrameLayout
-        app:behavior_overlapTop="@dimen/app_bar_overlap_padding"
         android:id="@+id/fragment_container"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
+        app:behavior_overlapTop="@dimen/app_bar_overlap_padding"
         app:layout_behavior="@string/appbar_scrolling_view_behavior" />
 
     <!--<android.support.design.widget.FloatingActionButton-->
-        <!--android:id="@+id/fab"-->
-        <!--android:layout_width="wrap_content"-->
-        <!--android:layout_height="wrap_content"-->
-        <!--android:layout_margin="@dimen/fab_margin"-->
-        <!--android:src="@android:drawable/ic_dialog_email"-->
-        <!--app:layout_anchor="@id/appbar"-->
-        <!--app:layout_anchorGravity="bottom|right|end" />-->
+    <!--android:id="@+id/fab"-->
+    <!--android:layout_width="wrap_content"-->
+    <!--android:layout_height="wrap_content"-->
+    <!--android:layout_margin="@dimen/fab_margin"-->
+    <!--android:src="@android:drawable/ic_dialog_email"-->
+    <!--app:layout_anchor="@id/appbar"-->
+    <!--app:layout_anchorGravity="bottom|right|end" />-->
 
 </android.support.design.widget.CoordinatorLayout>

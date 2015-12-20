@@ -24,6 +24,7 @@ public class Config {
     public static final String BUNDLE_MOVIES ="_movies";
     public static final String BUNDLE_SINGLE_MOVIES ="_single_movie";
     public static final String BUNDLE_SORT_ORDER ="_sort_order";
+    public static final String BUNDLE_SAVED_LAYOUT_MANAGER="_recyclerview_state";
 
 
     /*

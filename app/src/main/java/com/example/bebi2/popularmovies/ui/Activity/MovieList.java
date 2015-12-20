@@ -2,6 +2,8 @@ package com.example.bebi2.popularmovies.ui.Activity;
 
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Parcel;
+import android.os.Parcelable;
 import android.os.PersistableBundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -53,23 +55,29 @@ public class MovieList extends AppCompatActivity {
     private String SORT_ORDER = Config.SORT_BY_POPULARITY;
     private static final int DESIRED_GRID_COLUMN_WIDTH_DP = 300;
     String TAG = "MovieListActivity";
+    // Parcelable layoutManagerSavedState;
+    GridLayoutManager manager;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-        if (savedInstanceState == null || !savedInstanceState.containsKey(Config.BUNDLE_MOVIES) || !savedInstanceState.containsKey(Config.BUNDLE_SORT_ORDER)) {
-
-        } else {
+        setContentView(R.layout.activity_movie_list);
+        mContext = this;
+        if (savedInstanceState != null) {
             SORT_ORDER = savedInstanceState.getString(Config.BUNDLE_SORT_ORDER);
             mMovieList = savedInstanceState.getParcelableArrayList(Config.BUNDLE_MOVIES);
+            //layoutManagerSavedState = savedInstanceState.getParcelable(Config.BUNDLE_SAVED_LAYOUT_MANAGER);
+            // manager.onRestoreInstanceState(layoutManagerSavedState);
+
         }
 
-        setContentView(R.layout.activity_movie_list);
+
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        mContext = this;
+
         SetUpRecyclerView();
+
 
         FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
         fab.setOnClickListener(new View.OnClickListener() {
@@ -82,13 +90,27 @@ public class MovieList extends AppCompatActivity {
     }
 
 
-    private void showMovies(@NonNull List<Movie> movies) {
+    private void showMovies(ArrayList<Movie> movies) {
+
+        if (mSwipeContainer.isRefreshing()) {
+
+            mSwipeContainer.setRefreshing(false);
+        }
         mMovieList.clear();
         mMovieList.addAll(movies);
         mAdapter.notifyDataSetChanged();
-        mSwipeContainer.setRefreshing(false);
+
     }
 
+
+    @Override
+    public void onSaveInstanceState(Bundle outState) {
+
+        outState.putString(Config.BUNDLE_SORT_ORDER, SORT_ORDER);
+        outState.putParcelableArrayList(Config.BUNDLE_MOVIES, mMovieList);
+        //outState.putParcelable(Config.BUNDLE_SAVED_LAYOUT_MANAGER, manager.onSaveInstanceState());
+        super.onSaveInstanceState(outState);
+    }
 
     private void SetUpRecyclerView() {
         mRecyclerView = (RecyclerView) findViewById(R.id.movies_list);
@@ -116,23 +138,16 @@ public class MovieList extends AppCompatActivity {
 //        StaggeredGridLayoutManager manager = new StaggeredGridLayoutManager(2,StaggeredGridLayoutManager.VERTICAL);
 //        manager.setGapStrategy(StaggeredGridLayoutManager.GAP_HANDLING_NONE);
 
-        GridLayoutManager manager = new GridLayoutManager(mContext,optimalColumnCount,GridLayoutManager.VERTICAL,false);
-//        manager.setSpanSizeLookup(new GridLayoutManager.SpanSizeLookup(){
-//            @Override
-//            public int getSpanSize(int position) {
-//                return (position%7 ==0 ? optimalColumnCount-1:optimalColumnCount);
-//            }
-//        });
-
+        manager = new GridLayoutManager(mContext, optimalColumnCount, GridLayoutManager.VERTICAL, false);
         mRecyclerView.setLayoutManager(manager);
         mRecyclerView.setAdapter(mAdapter);
 
     }
 
     @Override
-    public void onStart() {
+    protected void onStart() {
         super.onStart();
-        if(mMovieList.isEmpty()){
+        if (mMovieList.isEmpty()) {
             getMovieList();
         }
     }
@@ -140,25 +155,28 @@ public class MovieList extends AppCompatActivity {
     @Override
     public void onStop() {
         stopRefreshing();
+
         super.onStop();
     }
 
 
     @Override
+    protected void onPause() {
+        super.onPause();
+        Log.d(TAG,"OnPause Called");
+    }
+
+    @Override
     public void onResume() {
         super.onResume();
+        Log.d(TAG,"OnResume Called");
+
     }
 
     public void stopRefreshing() {
         mSwipeContainer.setRefreshing(false);
     }
 
-    @Override
-    public void onSaveInstanceState(Bundle outState, PersistableBundle outPersistentState) {
-        outState.putString(Config.BUNDLE_SORT_ORDER, SORT_ORDER);
-        outState.putParcelableArrayList(Config.BUNDLE_MOVIES, mMovieList);
-        super.onSaveInstanceState(outState, outPersistentState);
-    }
 
     private void getMovieList() {
 
@@ -239,13 +257,18 @@ public class MovieList extends AppCompatActivity {
         // Handle action bar item clicks here. The action bar will
         // automatically handle clicks on the Home/Up button, so long
         // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
+        switch (item.getItemId()) {
+            case R.id.action_sort_popularity:
+                SORT_ORDER = Config.SORT_BY_POPULARITY;
+                getMovieList();
+                return true;
+            case R.id.action_sort_rating:
+                SORT_ORDER = Config.SORT_BY_RATING;
+                getMovieList();
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
         }
 
-        return super.onOptionsItemSelected(item);
     }
 }

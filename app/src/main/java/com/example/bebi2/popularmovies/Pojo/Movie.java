@@ -19,7 +19,12 @@ public class Movie implements Parcelable {
 
 
     public Movie() {
-
+        this.posterImage="";
+        this.title="NA";
+        this.synopsis="NA";
+        this.rating= (float)0.0;
+        this.backdrop = "";
+        this.releaseDate= new Date();
     }
 
     public String getPosterImage() {
