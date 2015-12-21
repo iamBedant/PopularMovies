@@ -4,7 +4,7 @@
     tools:context=".ui.Activity.MovieList">
     <item
         android:id="@+id/action_sort"
-        android:icon="@drawable/sort"
+        android:icon="@drawable/ic_action_sort"
         android:title="@string/sort_by"
         app:showAsAction="ifRoom">
 

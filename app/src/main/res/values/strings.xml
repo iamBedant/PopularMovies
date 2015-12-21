@@ -11,4 +11,5 @@
     <string name="sort_rating">Sort by Highest Rated</string>
     <string name="action_settings">Settings</string>
     <string name="title_activity_about_screen">AboutScreen</string>
+    <string name="about_heasing">I built this App with the help of these Libraries and Tutorials</string>
 </resources>

@@ -17,7 +17,7 @@
             android:fontFamily="sans-serif-light"
             android:gravity="center_horizontal"
             android:padding="@dimen/activity_horizontal_margin"
-            android:text="ABOUT"
+            android:text="@string/app_name"
             android:textColor="@color/name_color" />
 
         <View
@@ -36,7 +36,7 @@
             android:paddingLeft="@dimen/activity_horizontal_margin"
             android:paddingRight="@dimen/activity_horizontal_margin"
             android:paddingTop="@dimen/activity_horizontal_margin"
-            android:text="I built this App with the help of these Libraries and Articles"
+            android:text="@string/about_heasing"
             android:textColor="@color/name_color" />
 
         <LinearLayout
