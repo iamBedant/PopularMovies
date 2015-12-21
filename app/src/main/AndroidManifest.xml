@@ -29,10 +29,7 @@
             android:name=".ui.Activity.MovieDetails"
             android:label="@string/title_activity_movie_details"
             android:theme="@style/AppTheme.Detail" />
-        <activity
-            android:name=".ui.Activity.AboutScreen"
-            android:label="@string/title_activity_about_screen"
-            android:theme="@style/AppTheme"></activity>
+
     </application>
 
 </manifest>
