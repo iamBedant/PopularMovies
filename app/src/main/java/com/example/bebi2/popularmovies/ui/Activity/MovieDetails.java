@@ -39,9 +39,6 @@ public class MovieDetails extends AppCompatActivity {
         setUpToolBar(movie.getBackdrop(), movie.getTitle());
 
 
-
-
-
         if (savedInstanceState == null) {
             Fragment detailsFragment = MovieDetailsFragment.newInstance(movie);
             getSupportFragmentManager()
@@ -77,8 +74,8 @@ public class MovieDetails extends AppCompatActivity {
         Glide.with(mContext)
                 .load(backDrop)
                 .asBitmap()
-//                .placeholder(R.drawable.background_material)
-//                .error(R.drawable.background_material)
+                .placeholder(R.drawable.placeholder)
+                .error(R.drawable.placeholder)
                 .into(new BitmapImageViewTarget(imageView) {
                     @Override
                     public void onResourceReady(Bitmap bitmap, GlideAnimation anim) {

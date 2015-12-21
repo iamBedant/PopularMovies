@@ -1,6 +1,7 @@
 package com.example.bebi2.popularmovies.ui.Activity;
 
 import android.content.Context;
+import android.content.Intent;
 import android.os.Bundle;
 import android.os.Parcel;
 import android.os.Parcelable;
@@ -18,9 +19,11 @@ import android.util.Log;
 import android.view.View;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Toast;
 
 import com.android.volley.AuthFailureError;
 import com.android.volley.Request;
+import com.android.volley.RequestQueue;
 import com.android.volley.Response;
 import com.android.volley.VolleyError;
 import com.bumptech.glide.util.Util;
@@ -77,16 +80,18 @@ public class MovieList extends AppCompatActivity {
         setSupportActionBar(toolbar);
 
         SetUpRecyclerView();
+        if (mMovieList.isEmpty()) {
+            getMovieList();
+        }
 
-
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+//        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
+//        fab.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View view) {
+//                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
+//                        .setAction("Action", null).show();
+//            }
+//        });
     }
 
 
@@ -147,15 +152,13 @@ public class MovieList extends AppCompatActivity {
     @Override
     protected void onStart() {
         super.onStart();
-        if (mMovieList.isEmpty()) {
-            getMovieList();
-        }
+
     }
 
     @Override
     public void onStop() {
         stopRefreshing();
-
+        AppController.getInstance().getRequestQueue().cancelAll(TAG);
         super.onStop();
     }
 
@@ -163,13 +166,13 @@ public class MovieList extends AppCompatActivity {
     @Override
     protected void onPause() {
         super.onPause();
-        Log.d(TAG,"OnPause Called");
+        Log.d(TAG, "OnPause Called");
     }
 
     @Override
     public void onResume() {
         super.onResume();
-        Log.d(TAG,"OnResume Called");
+        Log.d(TAG, "OnResume Called");
 
     }
 
@@ -197,7 +200,7 @@ public class MovieList extends AppCompatActivity {
                 return super.getHeaders();
             }
         };
-
+        getMovieList.setTag(TAG);
         AppController.getInstance().addToRequestQueue(getMovieList);
 
     }
@@ -236,7 +239,12 @@ public class MovieList extends AppCompatActivity {
                             e.printStackTrace();
                         }
                     }
-                    mTempMovieList.add(movie);
+
+                    if (movie.getTitle() != null && !movie.getTitle().isEmpty()) {
+                        mTempMovieList.add(movie);
+                    }
+
+
                 }
                 showMovies(mTempMovieList);
             }
@@ -265,6 +273,12 @@ public class MovieList extends AppCompatActivity {
             case R.id.action_sort_rating:
                 SORT_ORDER = Config.SORT_BY_RATING;
                 getMovieList();
+                return true;
+            case R.id.action_about:
+
+                Intent intent = new Intent(mContext, About.class);
+                mContext.startActivity(intent);
+
                 return true;
             default:
                 return super.onOptionsItemSelected(item);

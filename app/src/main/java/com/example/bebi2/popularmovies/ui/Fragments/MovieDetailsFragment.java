@@ -54,15 +54,45 @@ public class MovieDetailsFragment extends Fragment {
         synopsis = (TextView) mFragmentView.findViewById(R.id.synopsis);
         poster = (ImageView) mFragmentView.findViewById(R.id.poster);
 
-        Glide.with(getActivity())
-                .load(movie.getPosterImage())
-                .into(poster);
 
 
-        title.setText(movie.getTitle());
-        releaseDate.setText(formatter.format(movie.getReleaseDate()));
-        rating.setText(movie.getRating()+"");
-        synopsis.setText(movie.getSynopsis());
+        if(movie.getPosterImage()==null){
+
+            poster.setImageResource(R.drawable.not_available);
+
+        }
+        else {
+            Glide.with(getActivity())
+                    .load(movie.getPosterImage())
+                    .error(R.drawable.loading_error)
+                    .placeholder(R.drawable.placeholder)
+                    .into(poster);
+        }
+
+         title.setText(movie.getTitle());
+
+        if(movie.getReleaseDate() != null){
+            releaseDate.setText(formatter.format(movie.getReleaseDate()));
+        }
+        else {
+            releaseDate.setText("Not Available");
+            //releaseDate.setTextColor();
+        }
+
+        if(movie.getRating()!=0.0){
+            rating.setText(movie.getRating()+"");
+        }
+        else {
+            rating.setText("NA");
+        }
+
+        if(movie.getRating()!=0.0){
+            synopsis.setText(movie.getSynopsis());
+        }
+        else {
+            synopsis.setText("Overview not found");
+        }
+
 
 
         return mFragmentView;

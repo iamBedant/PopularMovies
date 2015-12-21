@@ -11,6 +11,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
+import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
 import com.example.bebi2.popularmovies.Config.Config;
@@ -47,12 +48,22 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
 
         final Movie currentMovie = mDataset.get(position);
 
-        Glide.with(mContext)
-                .load(currentMovie.getPosterImage())
-                //TODO: add placeholder and error image
-                //.placeholder()
-                //.error()
-                .into(holder.imageView);
+        if(currentMovie.getPosterImage()==null){
+            holder.name.setVisibility(View.VISIBLE);
+            holder.imageView.setImageResource(R.drawable.not_available);
+            holder.name.setText(currentMovie.getTitle());
+        }
+        else {
+            holder.name.setVisibility(View.GONE);
+            Glide.with(mContext)
+                    .load(currentMovie.getPosterImage())
+                    //TODO: add placeholder and error image
+                    .placeholder(R.drawable.placeholder)
+                    .error(R.drawable.loading_error)
+                    .into(holder.imageView);
+        }
+
+
 
 
         holder.imageView.setOnClickListener(new View.OnClickListener() {
@@ -81,9 +92,13 @@ public class MovieListAdapter extends RecyclerView.Adapter<MovieListAdapter.View
     public class ViewHolder extends RecyclerView.ViewHolder{
 
         ImageView imageView;
+        TextView name;
+      //  View view;
+
         public ViewHolder(View itemView) {
             super(itemView);
-
+         //   view = itemView;
+            name = (TextView) itemView.findViewById(R.id.name);
             imageView = (ImageView) itemView.findViewById(R.id.poster);
         }
     }

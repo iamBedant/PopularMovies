@@ -1,12 +1,27 @@
 <?xml version="1.0" encoding="utf-8"?>
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="wrap_content">
+    android:layout_width="wrap_content"
+    android:layout_height="260dp"
+    android:foreground="?attr/selectableItemBackground">
 
     <ImageView
         android:contentDescription="@string/movie_poster"
         android:id="@+id/poster"
+        android:scaleType="fitXY"
+        android:adjustViewBounds="true"
         android:transitionName="poster"
         android:layout_width="match_parent"
         android:layout_height="wrap_content" />
+    <TextView
+        android:visibility="gone"
+        android:background="@color/colorPrimary"
+        android:id="@+id/name"
+        style="@style/Base.TextAppearance.AppCompat.Medium"
+        android:textColor="@color/name_color"
+        android:padding="@dimen/activity_horizontal_margin"
+        android:gravity="center_horizontal"
+        android:layout_gravity="bottom"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        />
 </FrameLayout>
