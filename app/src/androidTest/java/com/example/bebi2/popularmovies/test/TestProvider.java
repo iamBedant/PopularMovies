@@ -10,6 +10,9 @@ import com.example.bebi2.popularmovies.DataBase.FavouriteMovieContract;
 import com.example.bebi2.popularmovies.DataBase.FavouriteMovieContract.FavouriteMovieEntry;
 import com.example.bebi2.popularmovies.DataBase.FavouriteMovieDbHelper;
 
+import java.util.Map;
+import java.util.Set;
+
 /**
  * Created by bebi2 on 12/22/2015.
  */
@@ -48,6 +51,7 @@ public class TestProvider extends AndroidTestCase {
         assertTrue(favouriteMovieId != -1);
         Log.d(LOG_TAG, "New Row Id: " + favouriteMovieId);
 
+
         String[] columns = {
                 FavouriteMovieEntry._ID,
                 FavouriteMovieEntry.COLUMN_MOVIE_ID,
@@ -70,6 +74,22 @@ public class TestProvider extends AndroidTestCase {
                 null
         );
 
+
+        Cursor movieCursor = mContext.getContentResolver().query(FavouriteMovieEntry.CONTENT_URI,
+                null,
+                null,
+                null,
+                null
+
+        );
+
+        if(movieCursor.moveToFirst()){
+            validateCursor(values,movieCursor);
+        }
+        else {
+            fail("No Data");
+        }
+
         if (cursor.moveToFirst()) {
             int index = cursor.getColumnIndex(FavouriteMovieEntry.COLUMN_MOVIE_ID);
             String movieId = cursor.getString(index);
@@ -84,7 +104,21 @@ public class TestProvider extends AndroidTestCase {
 
     }
 
-    public void testGetType () {
+    static public void validateCursor(ContentValues expectedValues, Cursor valueCursor){
+        Set<Map.Entry<String, Object>> valueSet = expectedValues.valueSet();
+
+        for (Map.Entry<String,Object> entry : valueSet){
+            String columnName = entry.getKey();
+            int idx = valueCursor.getColumnIndex(columnName);
+            assertFalse(-1==idx);
+
+            String expectedValue = entry.getValue().toString();
+            assertEquals(expectedValue, valueCursor.getString(idx));
+        }
+    }
+
+
+    public void testGetType() {
 
         String type = mContext.getContentResolver().getType(FavouriteMovieEntry.CONTENT_URI);
         assertEquals("Error: the FavouriteMovieEntry CONTENT_URI should return FavouriteMovieEntry.CONTENT_TYPE",
@@ -101,8 +135,8 @@ public class TestProvider extends AndroidTestCase {
                 FavouriteMovieContract.FavouriteMovieReview.CONTENT_TYPE, type);
 
 
-        String reviewId ="123456";
-        type = mContext.getContentResolver().getType(FavouriteMovieContract.FavouriteMovieReview.buildSingleMovieReviewUri(movieId,reviewId));
+        String reviewId = "123456";
+        type = mContext.getContentResolver().getType(FavouriteMovieContract.FavouriteMovieReview.buildSingleMovieReviewUri(movieId, reviewId));
         assertEquals("Error: the FavouriteMovieReview CONTENT_URI with location should return FavouriteMovieReview.CONTENT_TYPE",
                 FavouriteMovieContract.FavouriteMovieReview.CONTENT_ITEM_TYPE, type);
 
@@ -112,11 +146,9 @@ public class TestProvider extends AndroidTestCase {
                 FavouriteMovieContract.FavouriteMovieTrailer.CONTENT_TYPE, type);
 
 
-        type = mContext.getContentResolver().getType(FavouriteMovieContract.FavouriteMovieTrailer.buildSingleMovieTrailerUri(movieId,reviewId));
+        type = mContext.getContentResolver().getType(FavouriteMovieContract.FavouriteMovieTrailer.buildSingleMovieTrailerUri(movieId, reviewId));
         assertEquals("Error: the FavouriteMovieTrailer CONTENT_URI with location should return FavouriteMovieTrailer.CONTENT_TYPE",
                 FavouriteMovieContract.FavouriteMovieTrailer.CONTENT_ITEM_TYPE, type);
-
-
 
 
     }
