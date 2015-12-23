@@ -87,33 +87,33 @@ public class TestProvider extends AndroidTestCase {
     public void testGetType () {
 
         String type = mContext.getContentResolver().getType(FavouriteMovieEntry.CONTENT_URI);
-        assertEquals("Error: the WeatherEntry CONTENT_URI should return WeatherEntry.CONTENT_TYPE",
+        assertEquals("Error: the FavouriteMovieEntry CONTENT_URI should return FavouriteMovieEntry.CONTENT_TYPE",
                 FavouriteMovieEntry.CONTENT_TYPE, type);
 
         String movieId = "94074";
         type = mContext.getContentResolver().getType(FavouriteMovieEntry.buildMovieUri(movieId));
-        assertEquals("Error: the WeatherEntry CONTENT_URI with location should return WeatherEntry.CONTENT_TYPE",
+        assertEquals("Error: the FavouriteMovieEntry CONTENT_URI with location should return FavouriteMovieEntry.CONTENT_TYPE",
                 FavouriteMovieEntry.CONTENT_ITEM_TYPE, type);
 
 
         type = mContext.getContentResolver().getType(FavouriteMovieContract.FavouriteMovieReview.buildMovieReviewUri(movieId));
-        assertEquals("Error: the WeatherEntry CONTENT_URI with location should return WeatherEntry.CONTENT_TYPE",
+        assertEquals("Error: the FavouriteMovieReview CONTENT_URI with location should return FavouriteMovieReview.CONTENT_TYPE",
                 FavouriteMovieContract.FavouriteMovieReview.CONTENT_TYPE, type);
 
 
         String reviewId ="123456";
         type = mContext.getContentResolver().getType(FavouriteMovieContract.FavouriteMovieReview.buildSingleMovieReviewUri(movieId,reviewId));
-        assertEquals("Error: the WeatherEntry CONTENT_URI with location should return WeatherEntry.CONTENT_TYPE",
+        assertEquals("Error: the FavouriteMovieReview CONTENT_URI with location should return FavouriteMovieReview.CONTENT_TYPE",
                 FavouriteMovieContract.FavouriteMovieReview.CONTENT_ITEM_TYPE, type);
 
 
         type = mContext.getContentResolver().getType(FavouriteMovieContract.FavouriteMovieTrailer.buildMovieTrailerUri(movieId));
-        assertEquals("Error: the WeatherEntry CONTENT_URI with location should return WeatherEntry.CONTENT_TYPE",
+        assertEquals("Error: the FavouriteMovieTrailer CONTENT_URI with location should return FavouriteMovieTrailer.CONTENT_TYPE",
                 FavouriteMovieContract.FavouriteMovieTrailer.CONTENT_TYPE, type);
 
 
         type = mContext.getContentResolver().getType(FavouriteMovieContract.FavouriteMovieTrailer.buildSingleMovieTrailerUri(movieId,reviewId));
-        assertEquals("Error: the WeatherEntry CONTENT_URI with location should return WeatherEntry.CONTENT_TYPE",
+        assertEquals("Error: the FavouriteMovieTrailer CONTENT_URI with location should return FavouriteMovieTrailer.CONTENT_TYPE",
                 FavouriteMovieContract.FavouriteMovieTrailer.CONTENT_ITEM_TYPE, type);
 
 
