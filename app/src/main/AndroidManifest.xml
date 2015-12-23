@@ -30,6 +30,9 @@
             android:label="@string/title_activity_movie_details"
             android:theme="@style/AppTheme.Detail" />
 
+        <provider
+            android:authorities="com.example.bebi2.popularmovies"
+            android:name=".DataBase.FavouriteMovieProvider"/>
     </application>
 
 </manifest>
